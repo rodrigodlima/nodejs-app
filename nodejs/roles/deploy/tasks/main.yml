@@ -4,6 +4,11 @@
   tags:
     - configure
 
+- name: DEPLOY-APP | Backup
+  import_tasks: backup.yml
+  tags:
+    - backup
+
 - name: DEPLOY-APP | deploy
   import_tasks: deploy.yml
   tags:
