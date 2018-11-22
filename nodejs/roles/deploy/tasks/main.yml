@@ -1,10 +1,10 @@
 ---
-- name: NODEJS | Configure
+- name: DEPLOY-APP | Configure
   import_tasks: config.yml
   tags:
     - configure
 
-- name: NODEJS | Install
-  import_tasks: install.yml
+- name: DEPLOY-APP | deploy
+  import_tasks: deploy.yml
   tags:
-    - install
+    - deploy
