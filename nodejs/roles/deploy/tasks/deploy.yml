@@ -30,6 +30,10 @@
   args:
     chdir: "{{ app_deploy_folder }}"
 
+- name: Remove release antiga
+  shell: rm -rf {{ current_release_path.stdout }}/
+  when: current_release_path.stdout != current_path
+
 - name: Cria diretorio de release para deploy da nova versao
   file:
     dest: "{{ release_path }}"
@@ -45,10 +49,6 @@
     src: "{{ release_path }}"
     dest: "{{ current_path }}"
     state: link
-
-- name: Remove release antiga
-  shell: rm -rf {{ current_release_path.stdout }}/
-  when: current_release_path.stdout != current_path
 
 - name: Seta permissoes para {{ release_path }}
   file:
