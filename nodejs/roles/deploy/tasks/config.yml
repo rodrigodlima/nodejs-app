@@ -1,0 +1,29 @@
+- name: Cria e garante permissoes no diretorio /data
+  file:
+    path: /data
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+    mode: 0770
+    state: directory
+
+- name: Criação do diretorio da aplicação
+  file:
+    path: "{{ app_deploy_folder }}"
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+    mode: 0770
+    state: directory
+
+- name: Criação diretório releases
+  file:
+    path: '{{ app_deploy_folder }}/releases'
+    state: directory
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+
+- name: Criação diretório temporário
+  file:
+    path: "{{ app_temp_deploy_folder }}"
+    state: directory
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"

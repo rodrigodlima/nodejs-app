@@ -1,0 +1,8 @@
+---
+app_deploy_folder: /data/helloworld
+nodejs_user: node
+nodejs_group: node
+app_backup_folder: /data/bkp/{{ app_name }}
+app_temp_deploy_folder: /tmp/{{ app_name }}
+app_log_folder: /var/log/{{ app_name }}
+app_conf_file: ecosystem.config.yml
