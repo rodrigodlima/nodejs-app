@@ -24,3 +24,16 @@
 
   roles:
     - pm2
+
+- name: deploy
+  hosts: nodejs-app
+  remote_user: root
+  become: yes
+  become_user: root
+  vars:
+    nodejs_user: node
+    nodejs_group: node
+    nodejs_home_path: "/home/{{ nodejs_user }}"
+
+  roles:
+    - deploy
