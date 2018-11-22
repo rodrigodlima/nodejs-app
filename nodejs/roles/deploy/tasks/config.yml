@@ -27,3 +27,10 @@
     state: directory
     owner: "{{ nodejs_user }}"
     group: "{{ nodejs_group }}"
+
+- name: Create log directory to {{app_name}}
+  file:
+    path: '{{ app_log_folder }}'
+    state: directory
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
