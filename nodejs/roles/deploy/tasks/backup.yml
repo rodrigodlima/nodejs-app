@@ -22,7 +22,10 @@
   shell: ls
   args:
     chdir: "{{app_deploy_folder}}/releases"
-  register: app_version
+  register: version
+
+- set_fact:
+    app_version: "{{ version.stdout }}"
 
 - name: Realiza backup da aplicacao
   archive:
