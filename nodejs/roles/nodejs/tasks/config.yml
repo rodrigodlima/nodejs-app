@@ -1,0 +1,11 @@
+- name: Garante a criacao do grupo node
+  group:
+    name: "{{ nodejs_group }}"
+    state: present
+    system: yes
+
+- name: Garante a criacao do user node
+  user:
+    name: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+    system: yes

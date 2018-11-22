@@ -1,0 +1,10 @@
+---
+- name: NODEJS | Configure
+  import_tasks: config.yml
+  tags:
+    - configure
+
+- name: NODEJS | Install
+  import_tasks: install.yml
+  tags:
+    - install

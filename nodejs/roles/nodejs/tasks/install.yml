@@ -1,0 +1,12 @@
+---
+- name: Instala o repositório de pacotes do NodeJS LTS
+  shell: curl -sL https://deb.nodesource.com/setup_10.x | bash -
+  become: yes
+  become_user: root
+
+- name: Instala o pacote do NodeJS
+  become: yes
+  become_user: root
+  apt:
+    name: "nodejs"
+    state: present
