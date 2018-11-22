@@ -1,4 +1,16 @@
 ---
+- name: Instala os pacotes iniciais necessarios para a instalacao do NodeJS
+  become: yes
+  become_user: root
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - curl
+    - build-essential
+    - wget
+
 - name: Instala o repositório de pacotes do NodeJS LTS
   shell: curl -sL https://deb.nodesource.com/setup_10.x | bash - warn=False
   become: yes
