@@ -20,7 +20,8 @@
 
 - name: Verifica versao atual
   shell: ls
-  chdir: "{{app_deploy_folder}}/releases"
+  args:
+    chdir: "{{app_deploy_folder}}/releases"
   register: app_version
 
 - name: Realiza backup da aplicacao
