@@ -4,14 +4,3 @@
     global: yes
   become: yes
   become_user: root
-
-- name: Configura e habilita o daemon do pm2 no Systemd
-  command: pm2 startup -u {{ nodejs_user }} --hp {{ nodejs_home_path }}
-  become: yes
-  become_user: root
-
-- name: Habilita o daemon do PM2 no startup e garante o status do servico
-  service:
-    name: "{{ pm2_service }}"
-    state: started
-    enabled: yes
