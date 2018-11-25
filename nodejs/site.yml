@@ -52,7 +52,31 @@
         conf_file_name: proxy.conf
         template_file: http/default.conf.j2
         port: 80
-        server_name: helloworld.example.org
+        server_name: *.chaordic.com.br *.linx.com.br
+        error_page: /usr/share/nginx/html
+        proxy_pass: backend
+        load_balancer:
+          proxy_pass: backend
+          health_check_plus: false
+        upstreams:
+          upstream1:
+            name: backend
+            lb_method: least_conn
+            zone_name: backend
+            zone_size: 64k
+            sticky_cookie: false
+            servers:
+              server1:
+                address: localhost
+                port: 3000
+                weight: 1
+                health_check: max_fails=3 fail_timeout=5s
+      default:
+        conf_file_location: /etc/nginx/conf.d/
+        conf_file_name: proxy-ssl.conf
+        template_file: http/default.conf.j2
+        port: 443
+        server_name: *.chaordic.com.br *.linx.com.br
         error_page: /usr/share/nginx/html
         proxy_pass: backend
         load_balancer:
