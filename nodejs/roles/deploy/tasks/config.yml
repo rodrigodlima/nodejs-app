@@ -38,7 +38,7 @@
 - name: Copia certificado SSL - Private KEY
   copy:
     src: '{{ private_key }}'
-    dest: '{{ ssl_dir }}'
+    dest: '{{ ssl_private_dir }}'
     owner: root
     group: root
   become: yes
@@ -47,7 +47,7 @@
 - name: Copia certificado SSL - Public KEY
   copy:
     src: '{{ public_key }}'
-    dest: '{{ ssl_dir }}'
+    dest: '{{ ssl_public_dir }}'
     owner: root
     group: root
   become: yes
