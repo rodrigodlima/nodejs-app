@@ -18,6 +18,8 @@ server {
     listen 443 ssl;
     ssl_certificate /etc/ssl/certs/{{ item.value.ssl.cert }};
     ssl_certificate_key /etc/ssl/private/{{ item.value.ssl.key }};
+    ssl_protocols       SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
 {% else %}
     listen {{ item.value.port }};
 {% endif %}
