@@ -80,8 +80,8 @@
         error_page: /usr/share/nginx/html
         proxy_pass: backend-ssl
         ssl:
-          cert: ssl/default.crt
-          key: ssl/default.key
+          cert: default.crt
+          key: default.key
         load_balancer:
           proxy_pass: backend-ssl
           health_check_plus: false
