@@ -52,7 +52,7 @@
         conf_file_name: proxy.conf
         template_file: http/default.conf.j2
         port: 80
-        server_name: *.chaordic.com.br *.linx.com.br
+        server_name: "*.chaordic.com.br *.linx.com.br"
         error_page: /usr/share/nginx/html
         proxy_pass: backend
         load_balancer:
@@ -76,9 +76,12 @@
         conf_file_name: proxy-ssl.conf
         template_file: http/default.conf.j2
         port: 443
-        server_name: *.chaordic.com.br *.linx.com.br
+        server_name: "*.chaordic.com.br *.linx.com.br"
         error_page: /usr/share/nginx/html
         proxy_pass: backend
+        ssl:
+          cert: ssl/default.crt
+          key: ssl/default.key
         load_balancer:
           proxy_pass: backend
           health_check_plus: false
