@@ -8,3 +8,4 @@ app_log_folder: /var/log/{{ app_name }}
 app_conf_file: ecosystem.config.yml
 private_key: default.key
 public_key: default.crt
+ssl_dir: /etc/ssl/certs
