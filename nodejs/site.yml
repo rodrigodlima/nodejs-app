@@ -39,7 +39,7 @@
   roles:
     - deploy
 
-- name: nginx
+- name: nginx-proxy
   hosts: nodejs-app
   become: true
   roles:
@@ -71,6 +71,15 @@
                 port: 3000
                 weight: 1
                 health_check: max_fails=3 fail_timeout=5s
+
+- name: nginx-proxy-ssl
+  hosts: nodejs-app
+  become: true
+  roles:
+    - nginxinc.nginx
+  vars:
+    nginx_http_template_enable: true
+    nginx_http_template:
       default:
         conf_file_location: /etc/nginx/conf.d/
         conf_file_name: proxy-ssl.conf
@@ -98,3 +107,4 @@
                 port: 3000
                 weight: 1
                 health_check: max_fails=3 fail_timeout=5s
+      
