@@ -52,7 +52,7 @@
         conf_file_name: proxy.conf
         template_file: http/default.conf.j2
         port: 80
-        server_name: "*.chaordic.com.br *.linx.com.br"
+        server_name: "_"
         error_page: /usr/share/nginx/html
         proxy_pass: backend
         load_balancer:
