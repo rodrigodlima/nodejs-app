@@ -51,7 +51,7 @@
         conf_file_location: /etc/nginx/conf.d/
         conf_file_name: proxy.conf
         template_file: http/default.conf.j2
-        port: 80
+        port: "80 default_server"
         server_name: "_"
         error_page: /usr/share/nginx/html
         proxy_pass: backend
