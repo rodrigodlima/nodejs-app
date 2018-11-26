@@ -122,7 +122,7 @@
           ]]
         }},
         "InstanceType" : { "Ref" : "InstanceType" },
-        "SecurityGroups" : [ { "Ref" : "InstanceSecurityGroup" } ],
+        "SecurityGroups" : [ { "Ref" : "ServerSecurityGroup" } ],
         "KeyName" : { "Ref" : "KeyName" },
         "Tags" : [
             {
@@ -135,30 +135,28 @@
       }
     },
 
-    "InstanceSecurityGroup" : {
+    "ServerSecurityGroup" : {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
-        "GroupDescription" : "Enable SSH access",
-        "SecurityGroupIngress" :
-          [ { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation"} }]
-      }
-    },
-
-    "WebSecurityGroup" : {
-      "Type" : "AWS::EC2::SecurityGroup",
-      "Properties" : {
-        "VpcId" : { "Ref" : "VpcId" },
-        "GroupDescription" : "Enable HTTP access",
-        "SecurityGroupIngress" : [ { "IpProtocol" : "tcp", "FromPort" : 80, "ToPort" : 80, "CidrIp" : "0.0.0.0/0" } ]
-      }
-    },
-	
-	  "WebSSLSecurityGroup" : {
-      "Type" : "AWS::EC2::SecurityGroup",
-      "Properties" : {
-        "VpcId" : { "Ref" : "VpcId" },
-        "GroupDescription" : "Enable HTTPS access",
-        "SecurityGroupIngress" : [ { "IpProtocol" : "tcp", "FromPort" : 443, "ToPort" : 443, "CidrIp" : "0.0.0.0/0" } ]
+          "GroupDescription" : "allow http, https and ssh access",
+          "SecurityGroupIngress" : [
+              {
+                  "IpProtocol" : "tcp",
+                  "FromPort" : "80",
+                  "ToPort" : "80",
+                  "CidrIp" : "0.0.0.0/0"
+              },{
+                  "IpProtocol" : "tcp",
+                  "FromPort" : "22",
+                  "ToPort" : "22",
+                  "CidrIp" : "0.0.0.0/0"
+              },{
+                  "IpProtocol" : "tcp",
+                  "FromPort" : "443",
+                  "ToPort" : "443",
+                  "CidrIp" : "0.0.0.0/0"
+              }
+          ]
       }
     },
 
