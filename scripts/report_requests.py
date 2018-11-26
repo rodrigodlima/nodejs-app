@@ -25,7 +25,7 @@ def nginx_log_parser(logfile):
       f.close()
 
 
-def envia_email():
+def send_email():
   fp = open(result_log_file, 'rb')
   msg = MIMEText(fp.read())
   fp.close()
@@ -42,4 +42,4 @@ def envia_email():
   
 if __name__ == '__main__':
   nginx_log_parser(nginx_log_file)
-  envia_email()
+  send_email()
