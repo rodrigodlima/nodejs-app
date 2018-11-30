@@ -24,6 +24,9 @@
     chdir: "{{app_deploy_folder}}/releases"
   register: version
 
+- set_fact:
+    app_version: "{{ version.stdout }}"
+
 - name: Valida se aplicação existe para evitar backup no primeiro deploy
   shell: "ls {{ app_deploy_folder }}/releases/{{ app_name }}*"
   register: result
