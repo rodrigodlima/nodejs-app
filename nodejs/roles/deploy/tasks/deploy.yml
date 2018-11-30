@@ -59,8 +59,11 @@
     group: "{{ nodejs_group }}"
     recurse: yes
 
+- name: Verifica se a aplicação já está rodando
+  shell: pm2 
+
 - name: PM2 - Inicia aplicacao
-  shell: pm2 startOrReload {{ app_conf_file }}
+  shell: pm2 reload {{ app_conf_file }}
   args:
     chdir: "{{ current_path }}"
   become: yes

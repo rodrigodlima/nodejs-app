@@ -1,0 +1,3 @@
+app_name: helloworld
+app_backup_folder: /data/bkp/{{ app_name }}
+app_deploy_folder: /data/{{ app_name }}
