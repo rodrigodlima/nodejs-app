@@ -1,9 +1,9 @@
 ---
-name: Verifica ultimo backup realizado
-shell: ls -ltr|awk -F " " '{print $9}' |tail -n 1
-args:
-  chdir: "{{app_backup_folder}}/releases"
-register: find_backup
+- name: Verifica ultimo backup realizado
+  shell: ls -ltr|awk -F " " '{print $9}' |tail -n 1
+  args:
+    chdir: "{{app_backup_folder}}/releases"
+  register: find_backup
 
 - name: registra ultimo backup
   set_fact:
