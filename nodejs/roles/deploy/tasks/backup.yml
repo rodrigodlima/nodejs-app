@@ -28,7 +28,9 @@
     app_version: "{{ version.stdout }}"
 
 - name: Valida se aplicação existe para evitar backup no primeiro deploy
-  command: ls {{ app_deploy_folder }}
+  find:
+    paths: "{{ app_backup_folder }}"
+    patterns: "*.tgz"
   register: result
   ignore_errors: true
 
