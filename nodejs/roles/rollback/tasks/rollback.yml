@@ -44,7 +44,7 @@
 
 - name: Descompacta arquivo de backup
   unarchive:
-    src: "{{app_backup_folder}}/releases/last_backup"
+    src: "{{ app_backup_folder }}/{{ last_backup }}"
     dest: "{{app_deploy_folder}}/releases/{{ last_backup }}"
 
 - name: Atualiza link simbólico
