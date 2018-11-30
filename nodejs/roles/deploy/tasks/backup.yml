@@ -27,7 +27,14 @@
 - set_fact:
     app_version: "{{ version.stdout }}"
 
+- name: Valida se aplicação existe para evitar backup no primeiro deploy
+  command: ls {{ app_deploy_folder }}
+  register: result
+  ignore_errors: true
+
 - name: Realiza backup da aplicacao
   archive:
     path: "{{ app_deploy_folder }}/releases/{{ app_version }}"
     dest: "{{ app_backup_folder }}/{{ app_name }}-{{ app_version }}.tgz"
+  when: result is succeeded
+ 
