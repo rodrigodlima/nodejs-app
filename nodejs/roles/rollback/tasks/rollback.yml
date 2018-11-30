@@ -1,0 +1,54 @@
+---
+- name: Verifica ultimo backup realizado
+  shell: ls -ltr|awk -F " " '{print $9}' |tail -n 1
+  args:
+    chdir: "{{ app_backup_folder }}"
+  register: find_backup
+
+- name: registra ultimo backup
+  set_fact:
+    last_backup: "{{ find_backup.stdout }}"
+
+#- name: Verifica versao atual
+#  shell: ls
+#  args:
+#    chdir: "{{app_deploy_folder}}/releases"
+#  register: version
+
+#- set_fact:
+#    app_version: "{{ version.stdout }}"
+
+#- name: Realiza restore da aplicacao
+#  archive:
+#    path: "{{ app_deploy_folder }}/releases/{{ app_version }}"
+#    dest: "{{ app_backup_folder }}/{{ app_name }}-{{ app_version }}.tgz"
+
+- name: current
+  set_fact:
+    release_path: "{{ app_deploy_folder }}/releases/{{ last_backup }}"
+    current_path: "{{ app_deploy_folder }}/current"
+
+- name: Define diretorio atual da aplicacao
+  command: readlink -f current
+  register: current_release_path
+  ignore_errors: yes
+  args:
+    chdir: "{{ app_deploy_folder }}"
+  
+- name: Cria diretorio de release para restore do backup
+  file:
+    dest: "{{app_deploy_folder}}/releases/{{ last_backup }}"
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+    state: directory
+
+- name: Descompacta arquivo de backup
+  unarchive:
+    src: "{{ app_backup_folder }}/{{ last_backup }}"
+    dest: "{{app_deploy_folder}}/releases/{{ last_backup }}"
+
+- name: Atualiza link simbólico
+  file:
+    src: "{{ release_path }}"
+    dest: "{{ current_path }}"
+    state: link

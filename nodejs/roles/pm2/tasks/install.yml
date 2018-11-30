@@ -1,0 +1,6 @@
+- name: Instala o modulo PM2 globalmente
+  npm:
+    name: "{{ pm2_module }}"
+    global: yes
+  become: yes
+  become_user: root

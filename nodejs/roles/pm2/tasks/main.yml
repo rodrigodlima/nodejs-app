@@ -1,0 +1,10 @@
+---
+- name: PM2 | Install
+  import_tasks: install.yml
+  tags:
+    - configure
+
+- name: PM2 | Service
+  import_tasks: service.yml
+  tags:
+    - service

@@ -1,0 +1,7 @@
+nodejs-app:
+  hosts:
+    127.0.0.1
+
+pm2-app:
+  hosts:
+    127.0.0.1

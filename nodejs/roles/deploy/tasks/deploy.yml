@@ -1,0 +1,79 @@
+- name: Faz o clone do repositorio da aplicação para diretorio temporario
+  git:
+    repo: 'https://github.com/rodrigodlima/helloworld-nodejs.git'
+    dest: "{{ app_temp_deploy_folder }}"
+    version: develop
+    force: yes
+
+- name: Instala os módulos na última versão via NPM
+  npm:
+    path: "{{ app_temp_deploy_folder }}"
+    state: latest
+
+- name: Registra o conteudo do arquivo package.json da aplicacao que sera implantada
+  shell: "cat {{ app_temp_deploy_folder }}/package.json"
+  register: json_content
+
+- name: Pega a versao atualizada da aplicação que sera implantada
+  set_fact:
+    app_version: "{{ (json_content.stdout | from_json).version }}"
+
+- name: Seta release e current variaveis
+  set_fact:
+    release_path: "{{ app_deploy_folder }}/releases/{{ app_name }}-{{ app_version }}"
+    current_path: "{{ app_deploy_folder }}/current"
+
+- name: Define diretorio atual da aplicacao
+  command: readlink -f current
+  register: current_release_path
+  ignore_errors: yes
+  args:
+    chdir: "{{ app_deploy_folder }}"
+
+- name: Remove release antiga
+  shell: rm -rf {{ current_release_path.stdout }}/
+  when: current_release_path.stdout != current_path
+
+- name: Cria diretorio de release para deploy da nova versao
+  file:
+    dest: "{{ release_path }}"
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+    state: directory
+
+- name: Copia a aplicacao para o diretorio de release
+  shell: "cp -R {{ app_temp_deploy_folder }}/* {{ release_path }}"
+
+- name: Atualiza link simbólico
+  file:
+    src: "{{ release_path }}"
+    dest: "{{ current_path }}"
+    state: link
+
+- name: Seta permissoes para {{ release_path }}
+  file:
+    path: '{{ release_path }}'
+    state: directory
+    mode: u=rwx,g=rwx
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+    recurse: yes
+
+- name: PM2 - Inicia aplicacao
+  shell: pm2 reload {{ app_conf_file }}
+  args:
+    chdir: "{{ current_path }}"
+  become: yes
+  become_user: "{{ nodejs_user }}"
+
+- name: Verifica se a aplicação já está rodando
+  shell: pm2 show {{ app_name }}
+  register: pm2_show
+  failed_when: pm2_show.rc != 0
+  become: yes
+  become_user: "{{ nodejs_user }}"
+
+- name: PM2 - Salva lista de processos
+  shell: pm2 save
+  become: yes
+  become_user: "{{ nodejs_user }}"

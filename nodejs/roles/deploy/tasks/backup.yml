@@ -1,0 +1,40 @@
+- name: Criação diretório de backup
+  file:
+    path: '{{ app_backup_folder }}'
+    state: directory
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+    mode: u=rwx,g=rwx
+
+- name: Registra backups antigos para remoção
+  find:
+    paths: '{{ app_backup_folder }}'
+    age: 4w
+  register: find_old_backups
+
+- name: Remove backups com mais de 4 semanas
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ find_old_backups.files }}"
+
+- name: Verifica versao atual
+  shell: ls
+  args:
+    chdir: "{{app_deploy_folder}}/releases"
+  register: version
+
+- set_fact:
+    app_version: "{{ version.stdout }}"
+
+- name: Valida se aplicação existe para evitar backup no primeiro deploy
+  shell: "ls {{ app_deploy_folder }}/releases/{{ app_name }}*"
+  register: result
+  ignore_errors: true
+
+- name: Realiza backup da aplicacao
+  archive:
+    path: "{{ app_deploy_folder }}/releases/{{ app_version }}"
+    dest: "{{ app_backup_folder }}/{{ app_name }}-{{ app_version }}.tgz"
+  when: result is succeeded
+ 

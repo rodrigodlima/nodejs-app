@@ -1,0 +1,54 @@
+- name: Cria e garante permissoes no diretorio /data
+  file:
+    path: /data
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+    mode: 0770
+    state: directory
+
+- name: Criação do diretorio da aplicação
+  file:
+    path: "{{ app_deploy_folder }}"
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+    mode: 0770
+    state: directory
+
+- name: Criação diretório releases
+  file:
+    path: '{{ app_deploy_folder }}/releases'
+    state: directory
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+
+- name: Criação diretório temporário
+  file:
+    path: "{{ app_temp_deploy_folder }}"
+    state: directory
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+
+- name: Cria diretorio de log para {{app_name}}
+  file:
+    path: '{{ app_log_folder }}'
+    state: directory
+    owner: "{{ nodejs_user }}"
+    group: "{{ nodejs_group }}"
+
+- name: Copia certificado SSL - Private KEY
+  copy:
+    src: '{{ private_key }}'
+    dest: '{{ ssl_private_dir }}'
+    owner: root
+    group: root
+  become: yes
+  become_user: root
+
+- name: Copia certificado SSL - Public KEY
+  copy:
+    src: '{{ public_key }}'
+    dest: '{{ ssl_public_dir }}'
+    owner: root
+    group: root
+  become: yes
+  become_user: root
