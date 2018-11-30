@@ -34,6 +34,9 @@
   register: result
   ignore_errors: true
 
+- debug:
+    msg: "Valor de result: {{ result }}"
+
 - name: Realiza backup da aplicacao
   archive:
     path: "{{ app_deploy_folder }}/releases/{{ app_version }}"
