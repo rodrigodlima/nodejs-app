@@ -5,7 +5,8 @@ args:
   chdir: "{{app_backup_folder}}/releases"
 register: find_backup
 
-- set_fact:
+- name: registra ultimo backup
+  set_fact:
     last_backup: "{{ find_backup.stdout }}"
 
 #- name: Verifica versao atual
