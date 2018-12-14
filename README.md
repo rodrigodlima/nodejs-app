@@ -59,7 +59,7 @@ A região que será realizado o deploy é a região que está configurado no seu
 
 Por default, o deploy é realizado em uma instância T2.small. Caso queira alterar, basta passar o parâmetro InstanceType. Ex:
 
-$ aws cloudformation create-stack --stack-name Stack_Name --template-body file://///nodejs-app/cloudformation-stack/deploy-nodejs-app.json --parameters ParameterKey=KeyName,ParameterValue=your_key ParameterKey=IntanceType,ParameterValue=t2.medium --on-failure DO_NOTHING
+$ aws cloudformation create-stack --stack-name Stack_Name --template-body file://///nodejs-app/cloudformation-stack/deploy-nodejs-app.json --parameters ParameterKey=KeyName,ParameterValue=your_key **ParameterKey=IntanceType,ParameterValue=t2.medium** --on-failure DO_NOTHING
 
 
 # Status do deploy
@@ -74,6 +74,8 @@ Após o deploy da stack ser conclúida, é disparado o deploy via Ansible, e iss
 Verifique o IP público que foi disponibilizado no deploy:
 
 $ aws ec2 describe-addresses --filters "Name=domain,Values=vpc" --query 'Addresses[*]."PublicIp"'
+
+A aplicação NodeJS de exemplo utiliza a porta 3000, o módulo de Nginx do Ansible realiza a configuração do proxy reverso para essa aplicação, ou seja, não é necessário passar a porta 3000 na URL.
 
 
 Para validar a aplicação acesse a url:
