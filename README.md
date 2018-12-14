@@ -36,6 +36,7 @@ https://docs.aws.amazon.com/pt_br/cli/latest/userguide/installing.html
 $ git clone -b develop https://github.com/rodrigodlima/nodejs-app.git
 
 $ aws cloudformation create-stack --stack-name Stack_Name --template-body file://///nodejs-app/cloudformation-stack/deploy-nodejs-app.json --parameters ParameterKey=KeyName,ParameterValue=your_key --on-failure DO_NOTHING
+
 Obs: altere Stack_name para o nome da stack de sua preferência e ParameterValue para o nome do seu par de chaves utilizado na Amazon. Você precisa ter essa chave na região que for realizar o deploy.
 
 A região que será realizado o deploy é a região que está configurado no seu ambiente (AWS CLI). As seguintes regiões são suportadas neste deploy:
